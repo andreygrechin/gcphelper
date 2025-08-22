@@ -1,0 +1,16 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "go.testEnvFile": "${workspaceFolder}/.env",
+        "cSpell.words": [
+            "resourcemanager"
+        ],
+        "cSpell.ignorePaths": [
+            "go.mod",
+        ]
+    }
+}

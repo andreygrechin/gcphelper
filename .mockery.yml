@@ -1,0 +1,21 @@
+---
+all: false
+dir: '{{.InterfaceDir}}'
+filename: mocks/mock_{{.SrcPackageName}}.go
+force-file-write: true
+formatter: gofmt
+log-level: warn
+structname: "{{.Mock}}{{.InterfaceName}}"
+pkgname: "mocks"
+recursive: false
+template: testify
+packages:
+  github.com/andreygrechin/gcphelper/pkg/folders:
+    config:
+      all: true
+  github.com/andreygrechin/gcphelper/pkg/organizations:
+    config:
+      all: true
+  github.com/andreygrechin/gcphelper/internal/logger:
+    config:
+      all: true
