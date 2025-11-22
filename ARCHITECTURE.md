@@ -10,24 +10,24 @@ gcphelper is a CLI tool for fetching Google Cloud Platform resource information.
 
 ```text
 gcphelper/
-├── cmd/                        # CLI command definitions
-│   ├── root.go                # Root command and global flags
-│   ├── organizations.go       # Organizations command
-│   └── folders.go             # Folders command
+├── cmd/                      # CLI command definitions
+│   ├── root.go               # Root command and global flags
+│   ├── organizations.go      # Organizations command
+│   └── folders.go            # Folders command
 ├── pkg/
-│   ├── folders/               # Folder fetching logic
+│   ├── folders/              # Folder fetching logic
 │   │   ├── fetcher.go        # API client and Fetcher interface
 │   │   ├── service.go        # High-level service with UX features
 │   │   └── types.go          # Data types and conversions
-│   ├── organizations/         # Organization fetching logic
+│   ├── organizations/        # Organization fetching logic
 │   │   ├── fetcher.go        # API client and Fetcher interface
 │   │   ├── service.go        # High-level service with UX features
 │   │   └── types.go          # Data types and conversions
-│   └── output/                # Output formatting
+│   └── output/               # Output formatting
 │       ├── formatter.go      # Format handling (table, JSON, CSV, ID)
 │       └── adapters.go       # Resource conversion for output
 └── internal/
-    └── logger/                # Logging utilities
+    └── logger/               # Logging utilities
 ```
 
 ## Architecture Layers
@@ -38,13 +38,13 @@ The application follows a layered architecture separating CLI, service, and API 
 ┌────────────────────────────────────┐
 │         CLI Layer (cmd/)           │  ← Command definitions, flags, output
 ├────────────────────────────────────┤
-│      Service Layer (pkg/*/service) │  ← UX features (spinners), orchestration
+│    Service Layer (pkg/*/service)   │  ← UX features (spinners), orchestration
 ├────────────────────────────────────┤
-│    Fetcher Interface (pkg/*/fetcher)│ ← Contract for resource operations
+│  Fetcher Interface (pkg/*/fetcher) │  ← Contract for resource operations
 ├────────────────────────────────────┤
-│     Client Implementation          │  ← Google Cloud API integration
+│       Client Implementation        │  ← Google Cloud API integration
 ├────────────────────────────────────┤
-│   Data Types & Conversion          │  ← Domain models, protobuf conversion
+│      Data Types & Conversion       │  ← Domain models, protobuf conversion
 └────────────────────────────────────┘
 ```
 
@@ -112,7 +112,7 @@ type Service struct {
 ```
 
 **Key Features:**
-- Progress indicators using spinner (pkg/briandowns/spinner)
+- Progress indicators using spinner (`github.com/briandowns/spinner`)
 - Debug logging for operations
 - Resource lifecycle management
 - Simplified API for CLI commands
