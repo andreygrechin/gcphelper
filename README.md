@@ -6,10 +6,10 @@ gcphelper is the CLI tool to fetch information from Google Cloud.
 
 ## Features
 
-- List all projects in an organization
-- List all folders in an organization with async fetching
-- Export folder information in multiple formats (table, JSON, CSV)
-- Configurable concurrency for API requests
+- List all accessible organizations
+- List all accessible folders
+- Search folders by parent organization or folder
+- Export information in multiple formats (table, JSON, CSV, ID)
 
 ## Installation
 
@@ -25,7 +25,7 @@ Download the pre-compiled binaries from [the releases page](https://github.com/a
 
 ## Prerequisites
 
-- Go 1.25 or later (for building from source)
+- Go 1.24 or later (for building from source)
 - Google Cloud SDK (gcloud) installed and configured
 - Valid Google Cloud credentials with appropriate permissions
 
@@ -45,7 +45,15 @@ export GOOGLE_APPLICATION_CREDENTIALS="/path/to/service-account-key.json"
 
 ## Required Permissions
 
-To list folders, your account needs the following IAM permissions:
+### For Organizations
+
+To list organizations, your account needs:
+
+- `resourcemanager.organizations.get` permission
+
+### For Folders
+
+To list folders, your account needs:
 
 - `resourcemanager.folders.list` on the organization or parent folders
 - `resourcemanager.folders.get` on individual folders
@@ -62,37 +70,94 @@ gcphelper --help
 gcphelper completion <shell>
 ```
 
-### List Projects
+### Global Flags
+
+All commands support these global flags:
+
+- `--format`, `-f`: Output format (table, json, csv, id) - default: table
+- `--verbose`, `-v`: Show additional output like counts and status messages
+
+### List Organizations
+
+List all Google Cloud organizations accessible to your credentials.
 
 ```shell
-# Fetch all accessible projects
-gcphelper projects
+# List all accessible organizations
+gcphelper organizations
 
-# Fetch projects recursively from a specific organization
-gcphelper projects --org <org-id>
+# List organizations in JSON format
+gcphelper --format json organizations
+
+# List only organization IDs for scripting
+gcphelper --format id organizations
+
+# Pipe organization IDs to other commands
+gcphelper -f id organizations | xargs -I {} gcloud resource-manager organizations describe {}
+
+# List organizations with verbose output
+gcphelper --verbose organizations
+
+# Use the short alias
+gcphelper org
 ```
 
 ### List Folders
 
+List Google Cloud folders using the SearchFolders API to discover all accessible folders.
+
 ```shell
-# Fetch all accessible folders
+# List all accessible folders
 gcphelper folders
 
-# Fetch folders recursively from a specific organization
-gcphelper folders --org <org-id>
+# List folders from a specific organization
+gcphelper folders --parent-organization 123456789
 
-# Output folders in JSON format
-gcphelper folders --format json
+# List folders under a specific parent folder
+gcphelper folders --parent-folder 987654321
 
-# Output folders in CSV format
-gcphelper folders --format csv
+# List folders in JSON format
+gcphelper --format json folders
 
-# Fetch folders with custom concurrency (default: 10)
-gcphelper folders --concurrency 20
+# List folders in CSV format
+gcphelper --format csv folders
+
+# List only folder IDs for scripting
+gcphelper --format id folders
+
+# Pipe folder IDs to other commands
+gcphelper -f id folders | xargs -I {} gcloud resource-manager folders describe {}
+
+# List folders with verbose output
+gcphelper --verbose folders
 
 # Combine options
-gcphelper folders --org 123456789 --format json --concurrency 15
+gcphelper --format json folders --parent-organization 123456789
 ```
+
+#### Folder Command Flags
+
+- `--parent-organization`, `-o`: Filter folders by parent organization ID
+- `--parent-folder`, `-p`: Filter folders by parent folder ID
+
+Note: You cannot specify both `--parent-organization` and `--parent-folder` at the same time.
+
+## Output Formats
+
+### Table (default)
+
+Human-readable table format with columns for all resource attributes.
+
+### JSON
+
+Machine-readable JSON format for programmatic processing.
+
+### CSV
+
+Comma-separated values format for spreadsheet imports.
+
+### ID
+
+Outputs only resource IDs, one per line - useful for piping to other commands.
 
 ## License
 
