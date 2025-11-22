@@ -21,6 +21,7 @@ type Service struct {
 	logger  logger.Logger
 }
 
+// NewServiceWithLogger creates a new organizations service with the provided fetcher and logger.
 func NewServiceWithLogger(fetcher Fetcher, log logger.Logger) *Service {
 	return &Service{
 		fetcher: fetcher,
