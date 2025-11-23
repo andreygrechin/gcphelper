@@ -1,7 +1,6 @@
 package folders_test
 
 import (
-	"context"
 	"testing"
 
 	"github.com/andreygrechin/gcphelper/pkg/folders"
@@ -25,7 +24,7 @@ func TestFetchOptions_CustomValues(t *testing.T) {
 
 // test basic folder options functionality.
 func TestClient_BasicFunctionality(t *testing.T) {
-	ctx := context.Background()
+	ctx := t.Context()
 	opts := &folders.FetchOptions{
 		Parent: "organizations/123456789",
 	}

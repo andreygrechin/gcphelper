@@ -1,7 +1,6 @@
 package folders_test
 
 import (
-	"context"
 	"errors"
 	"testing"
 	"time"
@@ -90,7 +89,7 @@ func TestService_ListFolders(t *testing.T) {
 
 			tt.setupMock(mockFetcher)
 
-			got, err := service.ListFolders(context.Background(), tt.opts)
+			got, err := service.ListFolders(t.Context(), tt.opts)
 
 			if tt.wantErr {
 				require.Error(t, err)
@@ -170,7 +169,7 @@ func TestService_ListFoldersWithParent(t *testing.T) {
 			opts := &folders.FetchOptions{
 				Parent: tt.parent,
 			}
-			got, err := service.ListFolders(context.Background(), opts)
+			got, err := service.ListFolders(t.Context(), opts)
 
 			if tt.wantErr {
 				require.Error(t, err)
