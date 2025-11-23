@@ -3,9 +3,9 @@
 ## Dependencies
 
 - github.com/briandowns/spinner v1.23.2: Fine for UX, but gate by TTY/no‑progress to avoid garbage output in pipes/CI.
+- google.golang.org/api, google.golang.org/grpc, google.golang.org/protobuf are correctly listed as direct dependencies since they are directly imported in the codebase.
 - Recommendations:
-  - Prune direct requires not imported (e.g., google.golang.org/api, google.golang.org/grpc, google.golang.org/protobuf) and let them be indirect.
-  - Run go mod tidy after pruning; use govulncheck (already in Makefile) before releases.
+  - Run go mod tidy periodically; use govulncheck (already in Makefile) before releases.
   - Consider pinning via -u=patch upgrades periodically and lock with CI to catch breaking changes.
 
 ## Naming & Data Model
@@ -24,9 +24,10 @@
 
 ## Docs & Consistency
 
-- README and ARCHITECTURE.md don’t match the current implementation:
-  - Mentions projects command, concurrency flags, recursive traversal, and --org/--concurrency flags that don’t exist.
-  - Update docs to reflect current commands: organizations, folders, flags --parent-folder, --parent-organization, --format --verbose.
+- ✅ README and ARCHITECTURE.md have been updated and now accurately reflect the current implementation:
+  - Correctly documents organizations and folders commands
+  - Accurately documents flags: --parent-folder, --parent-organization, --format, --verbose
+  - Lists TTY detection as a future enhancement rather than current feature
 
 ## Suggested Changes
 
