@@ -1,7 +1,6 @@
 package folders_test
 
 import (
-	"context"
 	"errors"
 	"testing"
 	"time"
