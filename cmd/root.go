@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/andreygrechin/gcphelper/internal/logger"
 	"github.com/spf13/cobra"
@@ -56,20 +57,20 @@ Make sure you have authenticated with Google Cloud using:
 func Execute(v VersionInfo) int {
 	log, err := logger.NewDevelopmentLogger()
 	if err != nil {
-		_ = fmt.Errorf("error creating logger: %w", err)
+		fmt.Fprintf(os.Stderr, "error creating logger: %v\n", err)
 
 		return 1
 	}
 	defer func() {
 		err := log.Close()
 		if err != nil {
-			_ = fmt.Errorf("error syncing logger: %w", err)
+			fmt.Fprintf(os.Stderr, "error syncing logger: %v\n", err)
 		}
 	}()
 
 	rootCmd := NewRootCommand(v, log)
 	if err := rootCmd.Execute(); err != nil {
-		_ = fmt.Errorf("error executing root command: %w", err)
+		fmt.Fprintf(os.Stderr, "error executing root command: %v\n", err)
 
 		return 1
 	}
